@@ -90,7 +90,50 @@ class Graph {
   }
 
   /** find the distance of the shortest path from the start vertex to the end vertex */
-  distanceOfShortestPath(start, end) { }
+  distanceOfShortestPath(start, end, seen = new Set([start]), stepsTaken = 0, stepsOfAllRoutes = []) {
+    // nodes to visit
+    // nodes seen
+    // current node is first node in nodes to visit
+      // start is current node
+      // add start to nodes seen
+      // look at curr node's neighbors
+      // go down each path, add to "step count", call fn again
+    if (start === end){
+      stepsOfAllRoutes.push(stepsTaken);
+      return;
+    }
+
+
+    for (let neighbor of start.adjacent) {
+      if (!seen.has(neighbor)) {
+        debugger;
+        seen.add(neighbor);
+        this.distanceOfShortestPath(neighbor, end, seen, stepsTaken + 1, stepsOfAllRoutes);
+        console.log("stepsOfAllRoutes", stepsOfAllRoutes)
+        return Math.min(stepsOfAllRoutes);
+      }
+    }
+
+    return undefined
+  }
 }
+
+let graph = new Graph();
+
+    let r = new Node("R");
+    let i = new Node("I");
+    let t = new Node("T");
+    let h = new Node("H");
+    let m = new Node("M");
+
+    graph.addVertices([r, i, t, h, m]);
+
+    graph.addEdge(r, i);
+    graph.addEdge(r, t);
+    graph.addEdge(r, h);
+    graph.addEdge(i, t);
+    graph.addEdge(t, h);
+    graph.addEdge(h, m);
+    graph.distanceOfShortestPath(r, m);
 
 module.exports = { Graph, Node };

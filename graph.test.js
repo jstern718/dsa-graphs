@@ -274,7 +274,7 @@ describe("BFS", function () {
     expect(results.indexOf("X") < results.indexOf("Q")).toBe(true);
   });
 });
-/*
+
 describe("distanceOfShortestPath", function () {
   it("should return distance of shortest path from start to end vertices", function () {
     // build graph
@@ -309,4 +309,3 @@ describe("distanceOfShortestPath", function () {
     expect(graph.distanceOfShortestPath(t, "rogue node")).toBe(undefined);
   });
 });
-*/
