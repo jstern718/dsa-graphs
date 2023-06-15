@@ -22,10 +22,9 @@ class Graph {
 
   /** add array of new Node instances and adds to them to nodes property. */
   addVertices(vertexArray) {
-    for (let vertex of vertexArray){
-        this.addVertex(vertex);
+    for (let vertex of vertexArray) {
+      this.addVertex(vertex);
     }
-
   }
 
   /** add edge between vertices v1,v2 */
@@ -46,22 +45,52 @@ class Graph {
    * - update any adjacency lists using that vertex
    */
   removeVertex(vertex) {
-        let adjacent = vertex.adjacent;
-        adjacent.forEach(neighbor => neighbor.adjacent.delete(vertex));
+    let adjacent = vertex.adjacent;
+    adjacent.forEach(neighbor => neighbor.adjacent.delete(vertex));
 
-        this.nodes.delete(vertex);
-    }
-
-
+    this.nodes.delete(vertex);
+  }
 
   /** traverse graph with DFS and returns array of Node values */
-  depthFirstSearch(start) { }
+  depthFirstSearch(start) {
+    let toVisitStack = [start];
+    let seen = new Set(toVisitStack);
+
+    while (toVisitStack.length) {
+      let curr = toVisitStack.pop();
+
+      for (let neighbor of curr.adjacent) {
+        if (!seen.has(neighbor)) {
+          toVisitStack.push(neighbor);
+          seen.add(neighbor);
+        }
+      }
+    }
+
+    return seen;
+  }
 
   /** traverse graph with BDS and returns array of Node values */
-  breadthFirstSearch(start) { }
+  breadthFirstSearch(start) {
+    let toVisitStack = [start];
+    let seen = new Array(start.value);
+
+    while (toVisitStack.length) {
+      let curr = toVisitStack.shift();
+
+      for (let neighbor of curr.adjacent) {
+        if (!seen.includes(neighbor.value)) {
+          toVisitStack.push(neighbor);
+          seen.push(neighbor.value);
+        }
+      }
+    }
+    console.log("seen from fn =", seen);
+    return seen;
+  }
 
   /** find the distance of the shortest path from the start vertex to the end vertex */
   distanceOfShortestPath(start, end) { }
 }
 
-module.exports = { Graph, Node }
+module.exports = { Graph, Node };
