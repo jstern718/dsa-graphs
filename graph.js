@@ -90,7 +90,7 @@ class Graph {
   }
 
   /** find the distance of the shortest path from the start vertex to the end vertex */
-  distanceOfShortestPath(start, end, seen = new Set([start]), stepsTaken = 0, stepsOfAllRoutes = []) {
+  distanceOfShortestPath(start, end) {
     // nodes to visit
     // nodes seen
     // current node is first node in nodes to visit
@@ -98,23 +98,39 @@ class Graph {
       // add start to nodes seen
       // look at curr node's neighbors
       // go down each path, add to "step count", call fn again
-    if (start === end){
-      stepsOfAllRoutes.push(stepsTaken);
-      return;
-    }
+    // if (start === end){
+    //   stepsOfAllRoutes.push(stepsTaken);
+    //   return;
+    // }
 
+    // let currSeen = new Set(seen);
 
-    for (let neighbor of start.adjacent) {
-      if (!seen.has(neighbor)) {
-        debugger;
-        seen.add(neighbor);
-        this.distanceOfShortestPath(neighbor, end, seen, stepsTaken + 1, stepsOfAllRoutes);
-        console.log("stepsOfAllRoutes", stepsOfAllRoutes)
-        return Math.min(stepsOfAllRoutes);
+    // for (let neighbor of start.adjacent) {
+    //   if (!currSeen.has(neighbor)) {
+    //     debugger;
+    //     currSeen.add(neighbor);
+    //     this.distanceOfShortestPath(neighbor, end, currSeen, stepsTaken + 1, stepsOfAllRoutes);
+    //     console.log("stepsOfAllRoutes", stepsOfAllRoutes)
+    //   }
+    // }
+
+    // return allSteps.length ? Math.min(allSteps) : undefined;
+    let toVisitQueue = [start];
+    let seen = new Set(toVisitQueue);
+    let stepsTaken = 0;
+
+    while (toVisitQueue.length > 0) {
+      let currNode = toVisitQueue.shift();
+
+      if (currNode.adjacent.has(end)) return stepsTaken + 1;
+
+      for (let neighbor of currNode.adjacent) {
+        if (!seen.has(neighbor)) {
+          toVisitQueue.push(neighbor);
+          seen.add(neighbor);
+        }
       }
     }
-
-    return undefined
   }
 }
 
