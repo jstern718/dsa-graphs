@@ -115,18 +115,19 @@ class Graph {
     // }
 
     // return allSteps.length ? Math.min(allSteps) : undefined;
-    let toVisitQueue = [start];
-    let seen = new Set(toVisitQueue);
-    let stepsTaken = 0;
+    if (start === end) return 0;
+
+    let toVisitQueue = [[start, 0]];
+    let seen = new Set();
 
     while (toVisitQueue.length > 0) {
-      let currNode = toVisitQueue.shift();
+      let [currNode, distance] = toVisitQueue.shift();
 
-      if (currNode.adjacent.has(end)) return stepsTaken + 1;
+      if (currNode === end) return distance;
 
       for (let neighbor of currNode.adjacent) {
         if (!seen.has(neighbor)) {
-          toVisitQueue.push(neighbor);
+          toVisitQueue.push([neighbor, distance + 1]);
           seen.add(neighbor);
         }
       }
